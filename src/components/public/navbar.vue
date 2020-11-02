@@ -4,14 +4,17 @@
       <tr>
         <td id="app_col">
           <ul>
-            <li>商店主页</li>
+            <li><router-link to="/">商店主页</router-link></li>
           </ul>
         </td>
         <td id="account_col">
           <table align="right" cellspacing="5px">
-            <tr>
+            <tr v-if="$Global.userInfo.loggedIn">
+              <td><router-link to="/user">{{$Global.userInfo.name}}</router-link></td>
+            </tr>
+            <tr v-else>
               <td>注册</td>
-              <td><a href="login.html">登录</a></td>
+              <td><router-link to="/login">登录</router-link></td>
             </tr>
           </table>
         </td>
@@ -24,6 +27,7 @@
 export default {
   name: "NavBar"
 };
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

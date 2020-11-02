@@ -1,12 +1,19 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <NavBar/>
     <router-view/>
   </div>
 </template>
+
+<script>
+import NavBar from '@/components/public/navbar.vue'
+export default {
+  name: 'App',
+  components: {
+    NavBar
+  }
+}
+</script>
 
 <style>
 #app {
@@ -28,5 +35,59 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.mRoundTextbox {
+    background-color: rgba(255,255,255,0.025);
+    font-size: 15px;
+    text-align: center;
+    border-radius: 1000px;
+    border: 1px solid rgba(255,255,255,0.5);
+    color: inherit;
+    outline: none;
+    padding: 6px;
+}
+.mRoundButton {
+    display: inline-block;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    cursor: pointer;
+    border: 1px solid #78afe2;
+    -webkit-border-radius: 1000px;
+    border-radius: 1000px;
+    color: rgba(176, 194, 190, 1);
+    text-align: center;
+    background: rgba(255,255,255,0.025);
+    outline: none;
+    padding: 5px 27px 5px 27px;
+    -webkit-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+    -moz-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+    -o-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+    transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+    text-shadow: rgba(0,0,0,0.2) 1px 1px 2px;
+}
+.mRoundButton:hover {
+    color: rgba(255,255,255,1);
+    background: #78afe2;
+}
+.mRoundButton:active {
+    border: 1px solid rgb(101, 125, 173);
+    background: rgb(101, 125, 173);
+    -webkit-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+    -moz-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+    -o-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+    transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+}
+.mRoundComboBox {
+    padding: 7px;
+    border-radius: 1000px;
+    background: rgba(255,255,255,0.95);
+    outline: none;
+    cursor: pointer;
+}
+.mStripeBkg {
+    background-image: linear-gradient(0deg, rgba(146, 137, 127, 1) 50%, rgb(157, 148, 138) 50%);
+    background-size: 100% 50px;
 }
 </style>

@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const Home = ()=>import("@/views/Home.vue")
-const About = ()=>import("@/views/About.vue")
+const Login = ()=>import("@/views/Login.vue")
 
 const routes = [
   {
@@ -13,15 +13,15 @@ const routes = [
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    component: About
+    path: '/login',
+    name: 'Login',
+    component: Login
   }
 ]
 
 const router = new VueRouter({
   routes,
-  mode: "history"
+  mode: 'history'
 })
 
 export default router
