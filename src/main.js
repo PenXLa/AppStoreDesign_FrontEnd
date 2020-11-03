@@ -4,7 +4,9 @@ import router from './router';
 
 
 import axios from 'axios';
-axios.defaults.baseURL = 'http://127.0.0.1:8080/AppStoreAPI';
+axios.defaults.baseURL = process.env.NODE_ENV === 'production' ? 
+                                'https://impxl.cn/AppStoreAPI' : //生产环境API
+                                'http://localhost:8080/AppStoreAPI';  //开发环境APi
 axios.defaults.withCredentials = true;
 
 
