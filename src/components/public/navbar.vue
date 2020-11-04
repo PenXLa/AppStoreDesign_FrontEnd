@@ -9,8 +9,8 @@
         </td>
         <td id="account_col">
           <table align="right" cellspacing="5px">
-            <tr v-if="$Global.userInfo.loggedIn">
-              <td><router-link to="/user">{{$Global.userInfo.name}}</router-link></td>
+            <tr v-if="userInfo.loggedIn">
+              <td><router-link to="/user">{{userInfo.name}}</router-link></td>
             </tr>
             <tr v-else>
               <td>注册</td>
@@ -25,7 +25,15 @@
 
 <script>
 export default {
-  name: "NavBar"
+  name: "NavBar",
+  data: function() {
+    return {
+      userInfo: this.$Global.userInfo
+    }
+  },
+  beforeCreate: function() { //生命周期钩子函数不能定义为箭头函数
+    this.$Global.updateUserInfo();
+  }
 };
 
 </script>

@@ -12,7 +12,6 @@ axios.defaults.withCredentials = true;
 
 import Global from '@/components/public/Global.js';
 Vue.prototype.$Global = Global;
-Global.updateUserInfo();
 
 Vue.config.productionTip = false;
 

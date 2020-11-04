@@ -6,12 +6,11 @@ var userInfo = {
 }
 function updateUserInfo() {
   axios.get("/userinfo").then((res)=>{
-    if (res.loggedIn) {
+    if (res.data.loggedIn) {
       userInfo.loggedIn = true;
-      userInfo.name = res.name;
-      userInfo.email = res.email;
+      userInfo.name = res.data.name;
+      userInfo.email = res.data.email;
     } else userInfo.loggedIn = false;
-    console.log(res);
   })
 }
 
