@@ -1,6 +1,6 @@
 <template>
-  <div id="loginFrame" class="mStripeBkg">
-    <Card>
+  <div id="loginView" class="mStripeBkg">
+    <Card id="loginFrame">
         <form name="loginForm" id="loginForm">
             <table id="loginTable">
                 <tr><td><p id="loginTitle">登 录</p></td></tr>
@@ -77,7 +77,7 @@ export default {
 
 
 <style scoped>
-#loginFrame {
+#loginView {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -91,7 +91,7 @@ export default {
 #loginTable {
     width: 100%;
     text-align: center;
-    border-spacing: 20px;
+    border-spacing: 30px;
 }
 
 #loginFrame {
@@ -118,7 +118,7 @@ export default {
 }
 
 
-#loginFrame img {
+#loginView img {
     vertical-align: middle;
     border-radius: 6px;
 }
