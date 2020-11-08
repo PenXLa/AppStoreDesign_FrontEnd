@@ -1,7 +1,10 @@
 <template>
   <div id="app">
     <NavBar/>
-    <router-view/>
+    <keep-alive>      
+      <router-view v-if="$route.meta.keepAlive"/>    
+    </keep-alive>    
+    <router-view v-if="!$route.meta.keepAlive"/>
   </div>
 </template>
 
@@ -23,8 +26,6 @@ html, body, #app{
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
 
 #nav {
@@ -63,7 +64,6 @@ html, body, #app{
     text-align: center;
     background: rgba(255,255,255,0.025);
     outline: none;
-    padding: 5px 27px 5px 27px;
     -webkit-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
     -moz-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
     -o-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);

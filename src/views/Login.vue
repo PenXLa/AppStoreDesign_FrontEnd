@@ -18,7 +18,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import Card from '@/components/public/Card.vue'
 import axios from 'axios'
 import qs from 'qs'
@@ -28,7 +27,7 @@ export default {
   components: {
     Card
   },
-  data: function () {
+  data() {
     return {
       email: '',
       pwd: '',
@@ -36,7 +35,7 @@ export default {
     }
   },
   methods: {
-    login: function () {
+    login() {
         axios.post("/login", qs.stringify({
             email: this.email,
             pwd: this.pwd,
@@ -56,7 +55,7 @@ export default {
             }
         });
     },
-    logout: function () {
+    logout() {
         let xhr=new XMLHttpRequest();
 
         xhr.onreadystatechange = function() {
@@ -76,12 +75,15 @@ export default {
 </script>
 
 
-<style scoped>
+<style scoped lang="scss">
+@import '@/scss/public.scss';
 #loginView {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0px;
+    height: calc(100% - #{$nav_height});
+    min-height: 500px;
 }
 
 #captcha {

@@ -10,7 +10,8 @@
         <td id="account_col">
           <table align="right" cellspacing="5px">
             <tr v-if="userInfo.loggedIn">
-              <td><router-link to="/user">{{userInfo.name}}</router-link></td>
+              <td><router-link to="/user" id="userLink">{{userInfo.name}}</router-link></td>
+              <td><a href="" @click="logout">退出</a></td>
             </tr>
             <tr v-else>
               <td>注册</td>
@@ -24,28 +25,39 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "NavBar",
-  data: function() {
+  data() {
     return {
       userInfo: this.$Global.userInfo
     }
   },
-  beforeCreate: function() { //生命周期钩子函数不能定义为箭头函数
+  beforeCreate() { //生命周期钩子函数不能定义为箭头函数
     this.$Global.updateUserInfo();
+  },
+  methods: {
+    logout() {
+      axios.get("/logout").then(()=>{
+        return this.$Global.updateUserInfo();
+      }).then(()=>{
+        this.$router.go(0);
+      })
+    }
   }
 };
 
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="scss">
+@import '@/scss/public.scss';
 nav {
   width: 100%;
   display: flex;
   align-items: center;
   background-color: #313132;
-  height: 45px;
+  height: $nav_height;
 }
 #navTable {
   width: 100%;

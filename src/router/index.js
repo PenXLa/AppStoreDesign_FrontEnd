@@ -1,21 +1,33 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
-const Home = ()=>import("@/views/Home.vue")
-const Login = ()=>import("@/views/Login.vue")
+const Home = ()=>import("@/views/Home.vue");
+const Login = ()=>import("@/views/Login.vue");
+const AppDetail = ()=>import("@/views/AppDetail.vue");
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    component: Home,
+    meta: {
+      keepAlive: true
+    }
   },
   {
     path: '/login',
-    name: 'Login',
-    component: Login
+    component: Login,
+    meta: {
+      keepAlive: false
+    }
+  },
+  {
+    path: '/app/:id',
+    component: AppDetail,
+    meta: {
+      keepAlive: false
+    }
   }
 ]
 
