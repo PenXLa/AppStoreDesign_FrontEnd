@@ -5,8 +5,7 @@
 
 <script>
   export default {
-    name: ,
-    components: {}
+    name: 'PageView'
   }
 </script>
 
