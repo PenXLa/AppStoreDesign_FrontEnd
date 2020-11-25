@@ -6,6 +6,7 @@ Vue.use(VueRouter);
 const Home = ()=>import("@/views/Home.vue");
 const Login = ()=>import("@/views/Login.vue");
 const AppDetail = ()=>import("@/views/AppDetail.vue");
+const Seller = ()=>import("@/views/Seller.vue");
 
 const routes = [
   {
@@ -25,6 +26,13 @@ const routes = [
   {
     path: '/app/:id',
     component: AppDetail,
+    meta: {
+      keepAlive: false
+    }
+  },
+  {
+    path: '/seller',
+    component: Seller,
     meta: {
       keepAlive: false
     }

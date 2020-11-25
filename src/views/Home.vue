@@ -22,7 +22,9 @@ export default {
   },
   methods: {
     doSearch() {
-      this.$refs.appList.search(this.searchText);
+      this.$refs.appList.appname = this.searchText;
+      this.$refs.appList.$refs.pageSelector.current = 1;
+      this.$refs.appList.search();
     }
   }
 }

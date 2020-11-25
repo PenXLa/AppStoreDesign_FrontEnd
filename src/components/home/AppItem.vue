@@ -49,6 +49,14 @@ export default {
     max-width: 180px;
     text-align: center;
     border-radius: 5px;
+    -webkit-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+    -moz-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+    -o-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+    transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+}
+.appFrame:hover {
+    transform: scale(1.03);
+    box-shadow: 6px 6px 10px 0px #00000014;
 }
 .appLink {
     color: #303030;
