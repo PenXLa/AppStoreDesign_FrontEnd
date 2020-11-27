@@ -3,10 +3,10 @@
     <div style="text-align: center">
       <img :src="$Global.APIURL + '/images/icon/' + appid + '.' + iconType" width="150" height="150" />
     </div>
-    <p>
+    <p style="margin: 1em">
       <router-link :to="'/app/' + appid" class="appLink">{{name}}</router-link>
     </p>
-    <p class="appRating">评价：{{rating}}</p>
+    <p class="appRating" style="margin: 1em">评价：{{rating}}</p>
     <p style="margin: 10px 0px 10px 0px">
       <b class='freePrice' v-if="price===0">免费</b>
       <span class='price' v-else>￥{{price}}</span> 
@@ -46,7 +46,7 @@ export default {
     border: 1px solid #dfdfdf;
     padding: 10px;
     margin: 10px 0px 0px 10px;
-    max-width: 180px;
+    max-width: 200px;
     text-align: center;
     border-radius: 5px;
     -webkit-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
@@ -65,6 +65,7 @@ export default {
     white-space:-moz-pre-wrap;
     white-space:-o-pre-wrap;
     word-wrap:break-word;
+    font-size: 16px;
 }
 .appRating {
     color: #909090;

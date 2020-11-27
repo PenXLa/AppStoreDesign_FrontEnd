@@ -2,7 +2,8 @@ import axios from 'axios'
 var userInfo = {
     loggedIn: false,
     email: '',
-    name: ''
+    name: '',
+    role: ''
 }
 function updateUserInfo() {
   axios.get("/userinfo").then((res)=>{
@@ -11,6 +12,7 @@ function updateUserInfo() {
         userInfo.loggedIn = true;
         userInfo.name = res.data.name;
         userInfo.email = res.data.email;
+        userInfo.role = res.data.role;
       } else userInfo.loggedIn = false;
       resolve();
     });

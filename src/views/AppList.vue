@@ -1,36 +1,43 @@
 <template>
     <div id='AppListFrame'>
-        <div>
+        <div v-if="searchResult.items">
             <AppItem v-for="app in searchResult.items" :key="app.id" 
                 :appid="app.id" :name="app.name" :price="app.price" :oriprice="app.oriprice"
                 :rating="app.rating" :tags="app.tags" :iconType="app.iconType"/>
         </div>
-        <PageSelect ref="pageSelector" id="pageSelector" :count="searchResult.pageCount" @pageChanged="pageChanged"/>
+        <div v-else>
+            无结果
+        </div>
+        <a-pagination ref="pagination" id="pagination" 
+                v-model="currentPage" show-size-changer :default-current="1" 
+                :total="searchResult.total" @change="pageChanged" @showSizeChange="sizeChanged"
+                :pageSizeOptions="['2', '10', '20', '30']"
+                :pageSize.sync="pageSize"/>
     </div>
 </template>
 
 
 <script>
 import AppItem from '@/components/home/AppItem.vue';
-import PageSelect from '@/components/public/PageSelect.vue';
 import axios from 'axios';
 export default {
     name: 'AppList',
     data() {
         return {
             appname: '', //搜索时的app名
-            countPerPage: 20, //搜索时的每页item数
+            currentPage: 1,
+            pageSize: 20,
             searchResult: []
         }
     },
-    components: {AppItem, PageSelect},
+    components: {AppItem},
     methods: {
         search() {
             axios.get('/search', {
                 params: {
                     name : this.appname,
-                    count: this.countPerPage,
-                    page: this.$refs.pageSelector.current 
+                    count: this.pageSize,
+                    page: this.currentPage
                 }
             }).then((res)=>{
                 if (res.data.success) {
@@ -42,6 +49,10 @@ export default {
         },
         pageChanged() {
             this.search();
+        },
+        sizeChanged() {
+            console.log( this.$refs.pagination.pageSize);
+            this.search();
         }
     }
 }
@@ -49,7 +60,7 @@ export default {
 
 
 <style scoped>
-#pageSelector {
+#pagination {
     text-align: center;
     margin: 40px;
 }

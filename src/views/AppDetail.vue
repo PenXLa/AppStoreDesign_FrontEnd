@@ -15,7 +15,7 @@
                     官网链接
                   </a>
                 </p>
-                <p id="AppRating">评分：{{appdetail.rating}}</p>
+                <p id="AppRating"><a-rate :value="appdetail.rating/2" allow-half disabled /></p>
                 <TagDisplay :tags="appdetail.tags"/>
             </td>
             <td>

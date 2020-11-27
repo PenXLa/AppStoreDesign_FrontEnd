@@ -6,7 +6,12 @@ Vue.use(VueRouter);
 const Home = ()=>import("@/views/Home.vue");
 const Login = ()=>import("@/views/Login.vue");
 const AppDetail = ()=>import("@/views/AppDetail.vue");
-const Seller = ()=>import("@/views/Seller.vue");
+const Publisher = ()=>import("@/views/Publisher/Publisher.vue");
+const PubInfo = ()=>import("@/views/Publisher/PubInfo.vue");
+const AppManage = ()=>import("@/views/Publisher/AppManage.vue");
+const PushApp = ()=>import("@/views/Publisher/PushApp.vue");
+const Overview = ()=>import("@/views/Publisher/Overview.vue");
+const Report = ()=>import("@/views/Publisher/Report.vue");
 
 const routes = [
   {
@@ -31,8 +36,30 @@ const routes = [
     }
   },
   {
-    path: '/seller',
-    component: Seller,
+    path: '/publisher',
+    component: Publisher,
+    children: [ 
+      {
+        path: '',
+        component: Overview
+      },
+      {
+        path: 'pubinfo',
+        component: PubInfo
+      },
+      {
+        path: 'report',
+        component: Report
+      },
+      {
+        path: 'apps',
+        component: AppManage
+      },
+      {
+        path: 'newapp',
+        component: PushApp
+      }
+    ],
     meta: {
       keepAlive: false
     }

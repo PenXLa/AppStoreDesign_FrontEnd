@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p id="searchArea">
+    <p id="searchArea" style="margin: 1em">
       <input class="mRoundTextbox" id="searchInputBox" v-model="searchText"/>
       <button class="mRoundButton" id="searchButton" @click='doSearch'>搜索</button>
     </p>
@@ -23,7 +23,7 @@ export default {
   methods: {
     doSearch() {
       this.$refs.appList.appname = this.searchText;
-      this.$refs.appList.$refs.pageSelector.current = 1;
+      this.$refs.appList.currentPage = 1;
       this.$refs.appList.search();
     }
   }
