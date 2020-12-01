@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="HomeFrame">
     <p id="searchArea" style="margin: 1em">
       <input class="mRoundTextbox" id="searchInputBox" v-model="searchText"/>
       <button class="mRoundButton" id="searchButton" @click='doSearch'>搜索</button>
@@ -31,6 +31,9 @@ export default {
 </script>
 
 <style scoped>
+#HomeFrame {
+  background-color: white;
+}
 #searchInputBox {
   background-color: rgba(0,0,0,0.025);
   border-color:  rgba(0,0,0,0.5);

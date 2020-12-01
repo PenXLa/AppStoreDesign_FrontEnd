@@ -25,7 +25,7 @@ export default {
     rating: Number,
     price: Number,
     oriprice: Number,
-    tags: String,
+    tags: Array,
     appid: String,
     iconType: {
       type: String,

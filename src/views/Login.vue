@@ -43,7 +43,7 @@ export default {
         })).then((res)=>{
             if (res.data.result == 1) {
                 this.$router.push('/');
-                this.$Global.updateUserInfo();
+                this.$Global.refreshUserInfo();
             } else if (res.data.result == 2) {
                 alert("验证码错误");
             } else if (res.data.result == 3) {

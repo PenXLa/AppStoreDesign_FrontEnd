@@ -1,30 +1,38 @@
 <template>
-  <div id="app">
-    <a-layout id="mainLayout">
-      <a-layout-header class="header">
-        <div class="logo" />
-        <a-menu :selectable="false" theme="dark" mode="horizontal" :style="{ lineHeight: '64px' }">
-          <a-menu-item key="1"> <router-link to="/">商店主页</router-link> </a-menu-item>
-          <a-menu-item key="2"> nav 2 </a-menu-item>
-          <a-menu-item key="3"> nav 3 </a-menu-item>
-          <AccountMenu/>
-        </a-menu>
-      </a-layout-header>
+  <a-config-provider :locale="zhCN">
+    <div id="app">
+      <a-layout id="mainLayout">
+        <a-layout-header class="header">
+          <div class="logo" />
+          <a-menu :selectable="false" theme="dark" mode="horizontal" :style="{ lineHeight: '64px' }">
+            <a-menu-item key="1"> <router-link to="/">商店主页</router-link> </a-menu-item>
+            <a-menu-item key="2"> nav 2 </a-menu-item>
+            <a-menu-item key="3"> nav 3 </a-menu-item>
+            <AccountMenu/>
+          </a-menu>
+        </a-layout-header>
 
-      <keep-alive>
-        <router-view v-if="$route.meta.keepAlive" />
-      </keep-alive>
-      <router-view v-if="!$route.meta.keepAlive" />
-    </a-layout>
-  </div>
+        <keep-alive>
+          <router-view v-if="$route.meta.keepAlive" />
+        </keep-alive>
+        <router-view v-if="!$route.meta.keepAlive" />
+      </a-layout>
+    </div>
+  </a-config-provider>
 </template>
 
 <script>
 import AccountMenu from "@/components/public/AccountMenu.vue";
+import zhCN from 'ant-design-vue/es/locale-provider/zh_CN';
 export default {
   name: "App",
   components: {
     AccountMenu,
+  },
+  data() {
+    return {
+      zhCN
+    }
   }
 };
 </script>

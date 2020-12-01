@@ -6,7 +6,7 @@
                 :rating="app.rating" :tags="app.tags" :iconType="app.iconType"/>
         </div>
         <div v-else>
-            无结果
+            <a-empty />
         </div>
         <a-pagination ref="pagination" id="pagination" 
                 v-model="currentPage" show-size-changer :default-current="1" 
@@ -27,6 +27,7 @@ export default {
             appname: '', //搜索时的app名
             currentPage: 1,
             pageSize: 20,
+            publisher: '',
             searchResult: []
         }
     },
@@ -37,7 +38,8 @@ export default {
                 params: {
                     name : this.appname,
                     count: this.pageSize,
-                    page: this.currentPage
+                    page: this.currentPage,
+                    publisher: this.publisher
                 }
             }).then((res)=>{
                 if (res.data.success) {

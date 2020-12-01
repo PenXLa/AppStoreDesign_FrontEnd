@@ -5,7 +5,7 @@ var userInfo = {
     name: '',
     role: ''
 }
-function updateUserInfo() {
+function refreshUserInfo() {
   axios.get("/userinfo").then((res)=>{
     return new Promise(resolve => {
       if (res.data.loggedIn) {
@@ -23,25 +23,31 @@ function day2ymd(day) {
   let year = parseInt(day/365);
   let mon = parseInt(day%365/30);
   let d = day%365%30;
-  return (year>0?year+'Äê':'') + (mon>0?mon+'ÔÂ':'') + (d>0?d+'Ìì':'');
+  return (year>0?year+'å¹´':'') + (mon>0?mon+'æœˆ':'') + (d>0?d+'æ—¥':'');
 }
 
 function byte2str(len) {
-  if (len >= 1<<30) {
-    return Math.round(len/(1<<30), 2) + 'GB';
-  } else if (len >= 1<<20) {
-    return Math.round(len/(1<<20), 2) + 'MB';
+  if (len >= 1n<<60n) {
+    return Math.round(Number(BigInt(len)/(1n<<60n), 2)) + 'EB';
+  } else if (len >= 1n<<50) {
+    return Math.round(Number(BigInt(len)/(1n<<50n), 2)) + 'PB';
+  } else if (len >= 1n<<40) {
+    return Math.round(Number(BigInt(len)/(1n<<40n), 2)) + 'TB';
+  } else if (len >= 1n<<30) {
+    return Math.round(Number(BigInt(len)/(1n<<30n), 2)) + 'GB';
+  } else if (len >= 1n<<20) {
+    return Math.round(Number(BigInt(len)/(1n<<20n), 2)) + 'MB';
   } else {
-    return Math.round(len/(1<<10), 2) + 'KB';
+    return Math.round(Number(BigInt(len)/(1n<<10n), 2)) + 'KB';
   }
 }
 
 const APIURL = process.env.NODE_ENV === 'production' ? 
-                              'https://impxl.cn/AppStoreAPI' : //Éú²ú»·¾³API
-                              'http://localhost:8080/AppStoreAPI';  //¿ª·¢»·¾³APi
+                              'https://impxl.cn/AppStoreAPI' :
+                              'http://localhost:8080/AppStoreAPI';  
 export default {
   userInfo,
-  updateUserInfo,
+  refreshUserInfo,
   APIURL,
   utils: {
     day2ymd,

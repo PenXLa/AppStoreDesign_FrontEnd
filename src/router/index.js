@@ -8,10 +8,11 @@ const Login = ()=>import("@/views/Login.vue");
 const AppDetail = ()=>import("@/views/AppDetail.vue");
 const Publisher = ()=>import("@/views/Publisher/Publisher.vue");
 const PubInfo = ()=>import("@/views/Publisher/PubInfo.vue");
-const AppManage = ()=>import("@/views/Publisher/AppManage.vue");
+const PublishedApps = ()=>import("@/views/Publisher/PublishedApps.vue");
 const PushApp = ()=>import("@/views/Publisher/PushApp.vue");
 const Overview = ()=>import("@/views/Publisher/Overview.vue");
 const Report = ()=>import("@/views/Publisher/Report.vue");
+const AppManage = ()=>import("@/views/Publisher/AppManage.vue");
 
 const routes = [
   {
@@ -53,6 +54,10 @@ const routes = [
       },
       {
         path: 'apps',
+        component: PublishedApps
+      },
+      {
+        path: 'app/:id',
         component: AppManage
       },
       {

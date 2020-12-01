@@ -22,13 +22,13 @@ export default {
       userInfo: this.$Global.userInfo
     }
   },
-  beforeCreate() { //生命周期钩子函数不能定义为箭头函数
-    this.$Global.updateUserInfo();
+  created() { //生命周期钩子函数不能定义为箭头函数
+    this.$Global.refreshUserInfo();
   },
   methods: {
     logout() {
       axios.get("/logout").then(()=>{
-        return this.$Global.updateUserInfo();
+        return this.$Global.refreshUserInfo();
       }).then(()=>{
         this.$router.go(0);
       })

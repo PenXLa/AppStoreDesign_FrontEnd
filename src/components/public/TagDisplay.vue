@@ -1,6 +1,6 @@
 <template>
     <div class="tagDiv">
-        <span class="apptag" v-for="tag in tagList" :key="tag">{{tag}}</span>
+        <span class="apptag" v-for="tag in tags" :key="tag">{{tag}}</span>
     </div>
 </template>
 
@@ -9,12 +9,7 @@
   export default {
     name: 'TagDisplay',
     props: {
-        tags: String
-    },
-    computed: {
-      tagList: function () {
-        return this.tags.split("|");
-      }
+        tags: Array
     }
   }
 </script>
