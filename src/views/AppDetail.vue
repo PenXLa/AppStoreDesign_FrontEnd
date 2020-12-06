@@ -34,37 +34,50 @@
               :key="plan.id" :title="plan.name" :planid="plan.id" :duration="plan.duration"
               :explanation="plan.explanation" :price="plan.price" :oriprice="plan.oriprice"/>
       </div>
-      <h1>详细信息</h1>
-      <p v-html="appdetail.introduction" />
-      <h1>系统需求</h1>
-      <table id="ReqTable">
-        <tr v-if="appdetail.CPU">
-          <td>CPU</td>
-          <td>{{appdetail.CPU}}</td>
-        </tr>
-        <tr v-if="appdetail.GPU">
-          <td>显卡</td>
-          <td>{{appdetail.GPU}}</td>
-        </tr>
-        <tr v-if="appdetail.RAM && appdetail.RAM>=0">
-          <td>RAM</td>
-          <td>{{$Global.utils.byte2str(appdetail.RAM)}}</td>
-        </tr>
-        <tr v-if="appdetail.hardDisk && appdetail.hardDisk>=0">
-          <td>存储空间</td>
-          <td>{{$Global.utils.byte2str(appdetail.hardDisk)}}</td>
-        </tr>
-        <tr v-if="appdetail.OS">
-          <td>操作系统</td>
-          <td>{{appdetail.OS}}</td>
-        </tr>
-        <tr v-if="appdetail.reqOther">
-          <td>其它</td>
-          <td>{{appdetail.reqOther}}</td>
-        </tr>
-      </table>
-      <h1>用户评论</h1>
-      
+      <div style="padding-top:20px">
+        <h1>详细信息</h1>
+        <p v-html="appdetail.introduction" />
+        <h1>系统需求</h1>
+        <table id="ReqTable">
+          <tr v-if="appdetail.CPU">
+            <td>CPU</td>
+            <td>{{appdetail.CPU}}</td>
+          </tr>
+          <tr v-if="appdetail.GPU">
+            <td>显卡</td>
+            <td>{{appdetail.GPU}}</td>
+          </tr>
+          <tr v-if="appdetail.RAM && appdetail.RAM>=0">
+            <td>RAM</td>
+            <td>{{$Global.utils.byte2str(appdetail.RAM)}}</td>
+          </tr>
+          <tr v-if="appdetail.hardDisk && appdetail.hardDisk>=0">
+            <td>存储空间</td>
+            <td>{{$Global.utils.byte2str(appdetail.hardDisk)}}</td>
+          </tr>
+          <tr v-if="appdetail.OS">
+            <td>操作系统</td>
+            <td>{{appdetail.OS}}</td>
+          </tr>
+          <tr v-if="appdetail.req_other">
+            <td>其它</td>
+            <td>{{appdetail.req_other}}</td>
+          </tr>
+        </table>
+        <h1>用户评论</h1>
+        <a-list :header="`${data.length} replies`" item-layout="horizontal" :data-source="data">
+          <a-list-item v-slot="renderItem" slot-scope="item, index">
+            <a-comment :author="item.author">
+              <p slot="content">
+                {{ item.content }}
+              </p>
+              <a-tooltip slot="datetime" :title="item.datetime.format('YYYY-MM-DD HH:mm:ss')">
+                <span>{{ item.datetime.fromNow() }}</span>
+              </a-tooltip>
+            </a-comment>
+          </a-list-item>
+        </a-list>
+      </div>
     </div>
 </template>
 
@@ -84,13 +97,13 @@ import BuyButton from '@/components/public/BuyButton.vue';
     beforeCreate() {
       axios.get("/appdetail", {
           params: {
-            id: this.$route.params.id
+            appid: this.$route.params.id
           }
-      }).then((res)=>{
+      }).then(res=>{
         if (res.data.success) {
           this.appdetail = res.data.detail;
         } else {
-          console.err("Error occured when request /appdetail：", res.data.reason, res);
+          console.error("Error occured when request /appdetail：", res.data.reason, res);
         }
       });
     },
@@ -102,6 +115,7 @@ import BuyButton from '@/components/public/BuyButton.vue';
 <style scoped>
 #DetailFrame {
   margin: 40px;
+  background: white;
 }
 #AppIcon {
   width: 200px;

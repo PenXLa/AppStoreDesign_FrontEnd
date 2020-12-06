@@ -28,17 +28,17 @@ function day2ymd(day) {
 
 function byte2str(len) {
   if (len >= 1n<<60n) {
-    return Math.round(Number(BigInt(len)/(1n<<60n), 2)) + 'EB';
-  } else if (len >= 1n<<50) {
-    return Math.round(Number(BigInt(len)/(1n<<50n), 2)) + 'PB';
-  } else if (len >= 1n<<40) {
-    return Math.round(Number(BigInt(len)/(1n<<40n), 2)) + 'TB';
-  } else if (len >= 1n<<30) {
-    return Math.round(Number(BigInt(len)/(1n<<30n), 2)) + 'GB';
-  } else if (len >= 1n<<20) {
-    return Math.round(Number(BigInt(len)/(1n<<20n), 2)) + 'MB';
+    return Math.round(Number(BigInt(len)/(1n<<60n)), 2) + 'EB';
+  } else if (len >= 1n<<50n) {
+    return Math.round(Number(BigInt(len)/(1n<<50n)), 2) + 'PB';
+  } else if (len >= 1n<<40n) {
+    return Math.round(Number(BigInt(len)/(1n<<40n)), 2) + 'TB';
+  } else if (len >= 1n<<30n) {
+    return Math.round(Number(BigInt(len)/(1n<<30n)), 2) + 'GB';
+  } else if (len >= 1n<<20n) {
+    return Math.round(Number(BigInt(len)/(1n<<20n)), 2) + 'MB';
   } else {
-    return Math.round(Number(BigInt(len)/(1n<<10n), 2)) + 'KB';
+    return Math.round(Number(BigInt(len)/(1n<<10n)), 2) + 'KB';
   }
 }
 
