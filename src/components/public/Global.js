@@ -1,18 +1,22 @@
 import axios from 'axios'
 var userInfo = {
     loggedIn: false,
+    uid: '',
     email: '',
     name: '',
-    role: ''
+    role: '',
+    balance: 0,
 }
 function refreshUserInfo() {
-  axios.get("/userinfo").then((res)=>{
+  return axios.get("/userinfo").then((res)=>{
     return new Promise(resolve => {
       if (res.data.loggedIn) {
         userInfo.loggedIn = true;
         userInfo.name = res.data.name;
+        userInfo.uid = res.data.uid;
         userInfo.email = res.data.email;
         userInfo.role = res.data.role;
+        userInfo.balance = res.data.balance;
       } else userInfo.loggedIn = false;
       resolve();
     });

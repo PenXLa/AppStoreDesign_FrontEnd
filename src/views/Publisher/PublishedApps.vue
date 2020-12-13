@@ -6,7 +6,7 @@
         <a-list-item-meta>
           <router-link slot="title" :to="'/publisher/app/' + item.id">{{ item.name }}</router-link>
           <a-avatar slot="avatar" shape="square"
-            :src="$Global.APIURL + '/images/icon/' + item.id + '.' + item.iconType"
+            :src="$Global.APIURL + item.icon"
           />
           <div slot="description">
             <tag-display :tags="[item.price>0? item.price + '￥' : '免费', item.active?'已上架':'未上架']"/>

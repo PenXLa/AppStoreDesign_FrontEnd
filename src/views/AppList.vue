@@ -1,12 +1,15 @@
 <template>
     <div id='AppListFrame'>
-        <div v-if="searchResult.items">
-            <AppItem v-for="app in searchResult.items" :key="app.id" 
-                :appid="app.id" :name="app.name" :price="app.price" :oriprice="app.oriprice"
-                :rating="app.rating" :tags="app.tags" :iconType="app.iconType"/>
-        </div>
-        <div v-else>
-            <a-empty />
+        <div>
+            <div style="text-align:center" v-if="loading"><a-spin size="large" /></div>
+            <template v-else>
+                <template v-if="searchResult.items">
+                    <AppItem v-for="app in searchResult.items" :key="app.id" 
+                        :appid="app.id" :name="app.name" :price="app.price" :oriprice="app.oriprice"
+                        :rating="app.rating" :tags="app.tags" :icon="app.icon"/>
+                </template>
+                <a-empty v-else/>
+            </template>
         </div>
         <a-pagination ref="pagination" id="pagination" 
                 v-model="currentPage" show-size-changer :default-current="1" 
@@ -28,12 +31,14 @@ export default {
             currentPage: 1,
             pageSize: 20,
             publisher: '',
-            searchResult: []
+            searchResult: [],
+            loading: false
         }
     },
     components: {AppItem},
     methods: {
         search() {
+            this.loading = true;
             axios.get('/search', {
                 params: {
                     name : this.appname,
@@ -47,6 +52,7 @@ export default {
                 } else {
                     console.error('查询时遇到错误：', res.data);
                 }
+                this.loading = false;
             });
         },
         pageChanged() {

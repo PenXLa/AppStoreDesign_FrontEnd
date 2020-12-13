@@ -1,7 +1,7 @@
 <template>
   <div id="HomeFrame">
     <p id="searchArea" style="margin: 1em">
-      <input class="mRoundTextbox" id="searchInputBox" v-model="searchText"/>
+      <input class="mRoundTextbox" id="searchInputBox" v-model="searchInfo.searchText"/>
       <button class="mRoundButton" id="searchButton" @click='doSearch'>搜索</button>
     </p>
     <AppList ref='appList'/>
@@ -17,15 +17,21 @@ export default {
   },
   data() {
     return {
-      searchText: ""
+      searchInfo: {
+        searchText: ""
+      }
+      
     }
   },
   methods: {
     doSearch() {
-      this.$refs.appList.appname = this.searchText;
+      this.$refs.appList.appname = this.searchInfo.searchText;
       this.$refs.appList.currentPage = 1;
       this.$refs.appList.search();
     }
+  },
+  mounted() {
+    this.doSearch();
   }
 }
 </script>

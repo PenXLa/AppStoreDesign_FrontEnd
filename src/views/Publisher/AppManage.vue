@@ -79,7 +79,7 @@
 
       <a-tab-pane key="icon" tab="图标">
         <a-skeleton :loading="loading" active>
-            <img id="AppIcon" :src="$Global.APIURL + '/images/icon/' + AppInfo.id + '.' + AppInfo.iconType"/>
+            <img id="AppIcon" :src="$Global.APIURL + AppInfo.icon"/>
         </a-skeleton>
       </a-tab-pane>
 
@@ -91,33 +91,22 @@
                 <a-form-item label="软件价格">
                     <a-input v-model="AppInfo.mainPlan.price" />
                 </a-form-item>
-            </a-form>
-            <!-- <a-table :columns="planTableCols" :data-source="AppInfo.subscribePlans" bordered>
-                <template v-for="col in ['name', 'age', 'address']" v-slot:[col]="text, record">
-                    <div :key="col">
-                        <a-input v-if="record.editable" style="margin: -5px 0" :value="text"
-                            @change="e => handleChange(e.target.value, record.key, col)"
-                        />
-                        <template v-else>
-                            {{ text }}
+            
+                <a-form-item label="订阅项目">
+                    <a-table :columns="planTableCols" :data-source="AppInfo.subscribePlans" :loading="loading" :pagination="false" @change="pageChanged">
+                        <template #durationSlot="duration"> {{duration/(24*60*60)}}天 </template>
+                        <template #activeSlot="active"> 
+                            <span v-if="active">可用</span>
+                            <span v-else>禁用</span>
                         </template>
-                    </div>
-                </template>
-                <template slot="operation" slot-scope="text, record">
-                    <div class="editable-row-operations">
-                        <span v-if="record.editable">
-                        <a @click="() => save(record.key)">Save</a>
-                        <a-popconfirm title="Sure to cancel?" @confirm="() => cancel(record.key)">
-                            <a>Cancel</a>
-                        </a-popconfirm>
-                        </span>
-                        <span v-else>
-                        <a :disabled="editingKey !== ''" @click="() => edit(record.key)">Edit</a>
-                        </span>
-                    </div>
-                </template>
-            </a-table> -->
-
+                        <template #actionSlot="">
+                            <a-button type="link" style="padding:0px">编辑</a-button><a-divider type="vertical" />
+                            <a-button type="link" style="padding:0px">禁用</a-button><a-divider type="vertical" />
+                            <a-button type="link" style="padding:0px; color:red">删除</a-button>
+                        </template>
+                    </a-table>
+                </a-form-item>
+            </a-form>
         </a-skeleton>
       </a-tab-pane>
 
@@ -151,9 +140,9 @@ import { message } from 'ant-design-vue';
 //Plan表格的列
 const planTableCols = [
   {
-    title: 'ID',
-    dataIndex: 'id',
-    key: 'id'
+    title: '标识符',
+    dataIndex: 'code',
+    key: 'code'
   },
   {
     title: '名字',
@@ -176,19 +165,20 @@ const planTableCols = [
     dataIndex: 'oriprice',
   },
   {
-    title: '原价',
-    key: 'oriprice',
-    dataIndex: 'oriprice',
-  },
-  {
-    title: '时间',
+    title: '时长',
     key: 'duration',
     dataIndex: 'duration',
+    scopedSlots: { customRender: 'durationSlot' },
   },
   {
     title: '生效',
     key: 'active',
-    dataIndex: 'active',
+    scopedSlots: { customRender: 'activeSlot' },
+  },
+  {
+    title: '操作',
+    key: 'action',
+    scopedSlots: { customRender: 'actionSlot' },
   },
 ];
 

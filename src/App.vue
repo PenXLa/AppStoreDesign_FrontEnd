@@ -3,11 +3,8 @@
     <div id="app">
       <a-layout id="mainLayout">
         <a-layout-header class="header">
-          <div class="logo" />
           <a-menu :selectable="false" theme="dark" mode="horizontal" :style="{ lineHeight: '64px' }">
             <a-menu-item key="1"> <router-link to="/">商店主页</router-link> </a-menu-item>
-            <a-menu-item key="2"> nav 2 </a-menu-item>
-            <a-menu-item key="3"> nav 3 </a-menu-item>
             <AccountMenu/>
           </a-menu>
         </a-layout-header>
@@ -42,11 +39,12 @@ html,
 body,
 #app {
   height: 100%;
-}
-#app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+#mainLayout {
+  background: white;
 }
 
 #nav {

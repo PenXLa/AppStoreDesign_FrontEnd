@@ -7,11 +7,11 @@
         <p>{{explanation}}</p>
       </td>
       <td id="BuyCol">
-        <BuyButton class="BuyButton">
+        <a-button class="BuyButton" type="primary" @click="$emit('click')">
           <b class="freeprice" v-if="price===0">免费订阅</b>
           <span class='price' v-else>￥{{price}}</span> <br/>
           <s class="oriprice" v-if="oriprice > price">￥{{oriprice}}</s>
-        </BuyButton>
+        </a-button>
       </td>
     </tr>
   </table>
@@ -20,7 +20,6 @@
 
 
 <script>
-import BuyButton from '@/components/public/BuyButton.vue';
 export default {
   name: 'PlanItem',
   props: {
@@ -30,9 +29,6 @@ export default {
     price: Number,
     oriprice: Number,
     duration: Number
-  },
-  components: {
-    BuyButton
   }
 }
 </script>

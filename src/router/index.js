@@ -13,6 +13,12 @@ const PushApp = ()=>import("@/views/Publisher/PushApp.vue");
 const Overview = ()=>import("@/views/Publisher/Overview.vue");
 const Report = ()=>import("@/views/Publisher/Report.vue");
 const AppManage = ()=>import("@/views/Publisher/AppManage.vue");
+const User = ()=>import("@/views/User/User.vue");
+const UserInfo = ()=>import("@/views/User/UserInfo.vue");
+const Orders = ()=>import("@/views/User/Orders.vue");
+const MyApps = ()=>import("@/views/User/MyApps.vue");
+const Billing = ()=>import("@/views/User/Billing.vue");
+const Messages = ()=>import("@/views/User/Messages.vue");
 
 const routes = [
   {
@@ -68,7 +74,36 @@ const routes = [
     meta: {
       keepAlive: false
     }
-  }
+  },
+  {
+    path: '/user',
+    component: User,
+    children: [ 
+      {
+        path: '',
+        component: UserInfo
+      },
+      {
+        path: 'orders',
+        component: Orders
+      },
+      {
+        path: 'myapps',
+        component: MyApps
+      },
+      {
+        path: 'billing',
+        component: Billing
+      },
+      {
+        path: 'messages',
+        component: Messages
+      }
+    ],
+    meta: {
+      keepAlive: false
+    }
+  },
 ]
 
 const router = new VueRouter({

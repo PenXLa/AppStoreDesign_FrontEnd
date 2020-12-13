@@ -1,12 +1,12 @@
 <template>
   <div class="appFrame">
     <div style="text-align: center">
-      <img :src="$Global.APIURL + '/images/icon/' + appid + '.' + iconType" width="150" height="150" />
+      <img :src="$Global.APIURL + icon" width="150" height="150" />
     </div>
     <p style="margin: 1em">
       <router-link :to="'/app/' + appid" class="appLink">{{name}}</router-link>
     </p>
-    <p class="appRating" style="margin: 1em">评价：{{rating}}</p>
+    <p class="appRating" style="margin: 1em">评分：{{rating}}</p>
     <p style="margin: 10px 0px 10px 0px">
       <b class='freePrice' v-if="price===0">免费</b>
       <span class='price' v-else>￥{{price}}</span> 
@@ -27,10 +27,7 @@ export default {
     oriprice: Number,
     tags: Array,
     appid: String,
-    iconType: {
-      type: String,
-      default: 'png'
-    }
+    icon: String
   },
   components: {
     TagDisplay
