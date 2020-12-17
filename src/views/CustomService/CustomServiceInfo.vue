@@ -1,13 +1,13 @@
 <template>
 <div>
-    PushApp
+    Overview
 </div>
 </template>
 
      
 <script>
   export default {
-    name: 'PushApp'
+    name: 'CustomServiceInfo'
   }
 </script>
 

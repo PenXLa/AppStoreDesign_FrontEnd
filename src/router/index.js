@@ -9,8 +9,6 @@ const AppDetail = ()=>import("@/views/AppDetail.vue");
 const Publisher = ()=>import("@/views/Publisher/Publisher.vue");
 const PubInfo = ()=>import("@/views/Publisher/PubInfo.vue");
 const PublishedApps = ()=>import("@/views/Publisher/PublishedApps.vue");
-const PushApp = ()=>import("@/views/Publisher/PushApp.vue");
-const Overview = ()=>import("@/views/Publisher/Overview.vue");
 const Report = ()=>import("@/views/Publisher/Report.vue");
 const AppManage = ()=>import("@/views/Publisher/AppManage.vue");
 const User = ()=>import("@/views/User/User.vue");
@@ -19,6 +17,10 @@ const Orders = ()=>import("@/views/User/Orders.vue");
 const MyApps = ()=>import("@/views/User/MyApps.vue");
 const Billing = ()=>import("@/views/User/Billing.vue");
 const Messages = ()=>import("@/views/User/Messages.vue");
+const CustomService = ()=>import("@/views/CustomService/CustomService.vue");
+const CustomServiceReturns = ()=>import("@/views/CustomService/Returns.vue");
+const Team = ()=>import("@/views/Publisher/Team.vue");
+const Admin = ()=>import("@/views/CustomService/Admin.vue");
 
 const routes = [
   {
@@ -48,10 +50,6 @@ const routes = [
     children: [ 
       {
         path: '',
-        component: Overview
-      },
-      {
-        path: 'pubinfo',
         component: PubInfo
       },
       {
@@ -67,9 +65,9 @@ const routes = [
         component: AppManage
       },
       {
-        path: 'newapp',
-        component: PushApp
-      }
+        path: 'team',
+        component: Team
+      },
     ],
     meta: {
       keepAlive: false
@@ -99,6 +97,24 @@ const routes = [
         path: 'messages',
         component: Messages
       }
+    ],
+    meta: {
+      keepAlive: false
+    }
+  },
+  {
+    path: '/custom-service',
+    component: CustomService,
+    children: [ 
+      {
+        path: '',
+        component: CustomServiceReturns
+      },
+      {
+        path: 'admin',
+        component: Admin
+      },
+      
     ],
     meta: {
       keepAlive: false

@@ -2,7 +2,8 @@
 <a-layout>
     <a-tabs default-active-key="statisics">
       <a-tab-pane key="statisics" tab="统计信息">
-        <a-skeleton :loading="loading" active>
+        <a-skeleton :loading="loading.contentLoading" active>
+            <a-statistic :value="AppInfo.name" />
             <a-statistic title="销量" :value="AppInfo.mainPlan.volume" />
         </a-skeleton>
       </a-tab-pane>
@@ -10,7 +11,7 @@
 
 
       <a-tab-pane key="data" tab="软件信息">
-        <a-skeleton :loading="loading" active>
+        <a-skeleton :loading="loading.contentLoading" active>
             <a-form :model="AppInfo">
                 <a-form-item label="软件名字">
                     <a-input v-model="AppInfo.name" />
@@ -78,22 +79,44 @@
 
 
       <a-tab-pane key="icon" tab="图标">
-        <a-skeleton :loading="loading" active>
-            <img id="AppIcon" :src="$Global.APIURL + AppInfo.icon"/>
+        <a-skeleton :loading="loading.contentLoading" active>
+            <p>
+                <img ref="icon" id="AppIcon" :src="$Global.APIURL + AppInfo.icon"/>
+            </p>
+            <p>
+                <a-upload name="file" accept=".png,.jpg,.svg" :showUploadList="false"
+                        @change="iconUploadStatusChange" :withCredentials="true"
+                        :data="{appid:AppInfo.id}"
+                        :action="`${$Global.APIURL}/publisher/changeappicon`" ref="uploader">
+                    <a-button> <a-icon type="upload" /> 上传新图标 </a-button>
+                </a-upload>
+            </p>
         </a-skeleton>
+      </a-tab-pane>
+
+      <a-tab-pane key="files" tab="软件安装包">
+
+        <a-upload name="file" :showUploadList="false"
+                @change="installUploadStatusChange" :withCredentials="true"
+                :data="{appid:AppInfo.id}"
+                :action="`${$Global.APIURL}/publisher/appupload`" ref="fileuploader">
+            <a-button> <a-icon type="upload" /> 上传软件安装包 </a-button>
+        </a-upload>
+
       </a-tab-pane>
 
 
 
       <a-tab-pane key="plans" tab="付费方案">
-        <a-skeleton :loading="loading" active>
+        <a-skeleton :loading="loading.contentLoading" active>
             <a-form :model="AppInfo.mainPlan">
                 <a-form-item label="软件价格">
                     <a-input v-model="AppInfo.mainPlan.price" />
+                    <a-button type="primary" html-type="submit" @click="updatePlanInfo(AppInfo.mainPlan)">保存修改</a-button>
                 </a-form-item>
             
                 <a-form-item label="订阅项目">
-                    <a-table :columns="planTableCols" :data-source="AppInfo.subscribePlans" :loading="loading" :pagination="false">
+                    <a-table :columns="planTableCols" :data-source="AppInfo.subscribePlans" :loading="loading.contentLoading" :pagination="false">
                         <template #codeSlot="code, item"> 
                             <a-input v-if="item.editing" v-model="planEditInfo.newInfo.code" /> <!--编辑模式-->
                             <span v-else> {{code}} </span> <!--正常显示-->
@@ -138,10 +161,11 @@
                             </template>
                             <template v-else><!--正常显示-->
                                 <a-button :disabled="planEditInfo.editing" type="link" style="padding:0px" @click="planEditClicked(item.key)">编辑</a-button><a-divider type="vertical" />
-                                <a-button :disabled="planEditInfo.editing" type="link" style="padding:0px">删除</a-button>
+                                <a-button :disabled="planEditInfo.editing" type="link" style="padding:0px" @click="removePlan(item.id)">删除</a-button>
                             </template>
                         </template>
                     </a-table>
+                    <a-button icon="plus" @click="newPlanClicked">新订阅项目</a-button>
                 </a-form-item>
             </a-form>
         </a-skeleton>
@@ -155,11 +179,18 @@
                 <template slot="title">
                     <p>确认要{{(AppInfo.active?'下':'上') + '架' + AppInfo.name}}吗</p>
                 </template>
-                <a-button type="danger" :loading="loading">
+                <a-button type="danger" :loading="loading.setEnabledLoading">
                     {{AppInfo.active?'下':'上'}}架软件
                 </a-button>
             </a-popconfirm>
-            <a-button type="danger">删除软件</a-button>
+            <a-popconfirm placement="bottomLeft" ok-text="确定" ok-type="danger" cancel-text="取消" @confirm="removeApp">
+                <template slot="title">
+                    <p>确认要删除{{AppInfo.name}}吗</p>
+                </template>
+                <a-button type="danger" :loading="loading.deleteAppLoading">
+                    删除软件
+                </a-button>
+            </a-popconfirm>
         </a-space>
       </a-tab-pane>
     </a-tabs>
@@ -208,7 +239,7 @@ const planTableCols = [
     scopedSlots: { customRender: 'oripriceSlot' },
   },
   {
-    title: '时长',
+    title: '时长(天)',
     key: 'duration',
     dataIndex: 'duration',
     scopedSlots: { customRender: 'durationSlot' },
@@ -233,7 +264,11 @@ export default {
         return {
             currentTab: ['statisics'],
             AppInfo: undefined,
-            loading: true,
+            loading: {
+                setEnabledLoading: false,
+                contentLoading: true,
+                deleteAppLoading: false
+            },
             newTag: undefined,
             planTableCols,
             planEditInfo: {
@@ -244,23 +279,61 @@ export default {
     },
     methods: {
         setAppEnabled(enabled) {
-            this.loading = true;
+            this.loading.setEnabledLoading = true;
             axios.get("/publisher/updateappinfo", {
                 params: {
                     appid: this.$route.params.id,
                     action: enabled?'enable':'disable'
                 }
             }).then(res => {
-                if (res.data.success) this.reload();
+                if (res.data.success) this.reload().then(()=>{this.loading.setEnabledLoading = false;});
                 else {
                     message.error('操作执行失败');
                     console.error('执行setAppEnabled时遇到错误：', res.data);
-                    this.loading = false;
+                    this.loading.setEnabledLoading = false;
+                }
+            });
+        },
+        removeApp() {
+            this.loading.deleteAppLoading = true;
+            axios.get('/publisher/removeapp', {
+                params: {
+                    appid: this.$route.params.id,
+                }
+            }).then((res)=>{
+                if (res.data.success) {
+                    this.$router.push('/publisher/apps');
+                } else {
+                    if (res.data.errcode==='still_using') {
+                        message.error('不能删除软件，仍然有用户在使用它。您可以尝试下架软件。');
+                    } else {
+                        message.error('删除软件失败');
+                        console.error('删除软件失败', res.data);
+                    }
+                    this.loading.deleteAppLoading = false;
+                }
+            });
+        },
+        removePlan(plan_id) {
+            axios.get('/publisher/removeplan', {
+                params: {
+                    planid: plan_id,
+                }
+            }).then((res)=>{
+                if (res.data.success) {
+                    this.reload();
+                } else {
+                    if (res.data.errcode==='still_using') {
+                        message.error('不能删除付费方案，仍然有用户在使用它。您可以尝试禁用它。');
+                    } else {
+                        message.error('删除付费方案失败');
+                        console.error('删除付费方案失败', res.data);
+                    }
                 }
             });
         },
         setBasicInfo() {
-            this.loading = true;
+            this.loading.contentLoading = true;
             axios.get("/publisher/updateappinfo", {
                 params: {
                     appid: this.$route.params.id,
@@ -274,13 +347,13 @@ export default {
                 } else {
                     message.error('操作执行失败');
                     console.error('执行setAppEnabled时遇到错误：', res.data);
-                    this.loading = false;
+                    this.loading.contentLoading = false;
                 }
             });
         },
         reload() {
-            this.loading = true;
-            axios.get("/appdetail", {
+            this.loading.contentLoading = true;
+            return axios.get("/appdetail", {
                 params: {
                     appid: this.$route.params.id
                 }
@@ -291,7 +364,7 @@ export default {
                         this.AppInfo.subscribePlans[i].key = i; //设置key
                         this.AppInfo.subscribePlans[i].editing = false; //是否处在编辑模式
                     }
-                    this.loading = false;
+                    this.loading.contentLoading = false;
                 } else {
                     message.error('获取信息失败');
                     console.error('PublisherAppDetail获取信息失败', res);
@@ -354,6 +427,32 @@ export default {
                     }
                 })
             });
+        },
+        iconUploadStatusChange(info) {
+            if (info.file.status === 'done') {
+                message.success("图标上传成功");
+            } else if (info.file.status === 'error') {
+                message.error("图标上传失败");
+            }
+        },
+        newPlanClicked() {
+            axios.get('/publisher/newplan', {params:{
+                appid: this.$route.params.id
+            }}).then((res)=>{
+                if (res.data.success) {
+                    this.reload();
+                } else {
+                    message.error('创建订阅项目失败');
+                    console.error('创建订阅项目失败', res.data);
+                }
+            });
+        },
+        installUploadStatusChange(info) {
+            if (info.file.status === 'done') {
+                message.success("上传成功");
+            } else if (info.file.status === 'error') {
+                message.error("上传失败");
+            }
         }
     },
     created() {

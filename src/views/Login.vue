@@ -54,18 +54,6 @@ export default {
                 alert("输入格式错误");
             }
         });
-    },
-    logout() {
-        let xhr=new XMLHttpRequest();
-
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState==4 && xhr.status==200) {
-                location.reload();
-            }
-        }
-
-        xhr.open('get', 'logout', true);
-        xhr.send();
     }
   }
 }

@@ -10,7 +10,7 @@
         {{title}}
       </template>
       <template #actionSlot="item">
-        <a-button type="link" style="padding:0px">删除</a-button><a-divider type="vertical" />
+        <!-- <a-button type="link" style="padding:0px">删除</a-button><a-divider type="vertical" /> -->
         <a-button type="link" style="padding:0px" @click="setReadStat(item, item.unread)">
             设为{{item.unread?'已':'未'}}读
         </a-button>

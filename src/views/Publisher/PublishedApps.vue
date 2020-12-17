@@ -1,5 +1,6 @@
 <template>
 <div>
+  <a-button icon="plus" @click="newApp">发布新软件</a-button>
   <a-skeleton :loading="loading" active>
     <a-list item-layout="horizontal" :data-source="apps">
       <a-list-item slot="renderItem" slot-scope="item">
@@ -40,6 +41,16 @@ export default {
             } else {
                 message.error('获取信息失败');
                 console.error('PublishedApps获取信息失败', res.data);
+            }
+        });
+    },
+    newApp() {
+        axios.get('/publisher/newapp').then((res)=>{
+            if (res.data.success) {
+                this.$router.push('/publisher/app/' + res.data.appid);
+            } else {
+                message.error('创建软件失败');
+                console.error('创建软件失败', res.data);
             }
         });
     }

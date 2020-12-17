@@ -77,6 +77,13 @@
           </p>
           <h1>用户评论</h1>
           <p>
+            评论排序方式：
+            <a-select v-model="commentsOrder" @change="fetchComments">
+              <a-select-option value="rating-highest">评分最高</a-select-option>
+              <a-select-option value="rating-lowest">评分最低</a-select-option>
+              <a-select-option value="date-latest">最新评论</a-select-option>
+              <a-select-option value="date-oldest">最早评论</a-select-option>
+            </a-select>
             <a-list :header="`共 ${comments.count} 条评论`" item-layout="horizontal" :data-source="comments.comments">
               <template v-slot:renderItem="item">
                 <a-list-item>
@@ -140,7 +147,7 @@
           <tr>
             <td>时长：</td>
             <td>
-              <b v-if="selectedPlan.duration>0">{{selectedPlan.duration/(24*60*60)}} 天</b>
+              <b v-if="selectedPlan.duration>0">{{selectedPlan.duration}} 天</b>
               <b v-else>永久</b>
             </td>
           </tr>
@@ -166,7 +173,7 @@
           </a-result>
           <a-result v-else-if="buyResult.errorcode==='rebuy'" status="error" title="购买失败" sub-title="你之前已经拥有此产品，不能重复购买"/>
           <a-result v-else-if="buyResult.errorcode==='invalid_product'" status="error" title="购买失败" sub-title="购买的产品不存在或尚未上架"/>
-          <a-result v-else status="error" title="购买失败" sub-title="服务器错误"/>
+          <a-result v-else status="error" title="购买失败" sub-title="请检查是否登录"/>
         </div>
         
       </a-modal>
@@ -195,26 +202,33 @@ export default {
       payResultBoxVisible: false,//购买结果框visible
       buying: false,        //是否在请求购买api
       selectedPlan: {},      //选中的购买plan
-      buyResult: {}
+      buyResult: {},
+      commentsOrder: 'rating-highest',
     }
   },
   methods: {
     fecthPageData() {
-        axios.get("/appdetail", {
-            params: {
-              appid: this.$route.params.id
-            }
-        }).then(res=>{
-            if (res.data.success) {
-              this.appdetail = res.data.detail;
-            } else {
-              console.error("Error occured when request /appdetail：", res.data.reason, res);
-            }
-        });
-
+        this.fetchAppInfo();
+        this.fetchComments();
+    },
+    fetchAppInfo() {
+      axios.get("/appdetail", {
+          params: {
+            appid: this.$route.params.id,
+          }
+      }).then(res=>{
+          if (res.data.success) {
+            this.appdetail = res.data.detail;
+          } else {
+            console.error("Error occured when request /appdetail：", res.data.reason, res);
+          }
+      });
+    },
+    fetchComments() {
         axios.get("/appcomments", {
             params: {
-              appid: this.$route.params.id
+              appid: this.$route.params.id,
+              orderby: this.commentsOrder
             }
         }).then(res=>{
             if (res.data.success) {

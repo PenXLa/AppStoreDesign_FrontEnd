@@ -32,7 +32,11 @@ export default {
             pageSize: 20,
             publisher: '',
             searchResult: [],
-            loading: false
+            loading: false,
+            order: undefined,
+            orderby: undefined,
+            lowprice: undefined,
+            highprice: undefined,
         }
     },
     components: {AppItem},
@@ -44,7 +48,11 @@ export default {
                     name : this.appname,
                     count: this.pageSize,
                     page: this.currentPage,
-                    publisher: this.publisher
+                    publisher: this.publisher,
+                    order: this.order,
+                    orderby: this.orderby,
+                    lowprice: this.lowprice,
+                    highprice: this.highprice
                 }
             }).then((res)=>{
                 if (res.data.success) {

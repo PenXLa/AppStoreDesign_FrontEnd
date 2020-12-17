@@ -6,6 +6,7 @@ var userInfo = {
     name: '',
     role: '',
     balance: 0,
+    isManager: false,
 }
 function refreshUserInfo() {
   return axios.get("/userinfo").then((res)=>{
@@ -17,6 +18,7 @@ function refreshUserInfo() {
         userInfo.email = res.data.email;
         userInfo.role = res.data.role;
         userInfo.balance = res.data.balance;
+        userInfo.isManager = res.data.isManager;
       } else userInfo.loggedIn = false;
       resolve();
     });
@@ -49,6 +51,7 @@ function byte2str(len) {
 const APIURL = process.env.NODE_ENV === 'production' ? 
                               'https://impxl.cn/AppStoreAPI' :
                               'http://localhost:8080/AppStoreAPI';  
+//const APIURL = 'https://impxl.cn/AppStoreAPI'
 export default {
   userInfo,
   refreshUserInfo,

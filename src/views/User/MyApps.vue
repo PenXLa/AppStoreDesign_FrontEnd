@@ -13,7 +13,7 @@
     </template>
     <template #actionSlot="text,item">
       <router-link :to="`/app/${item.appid}`">商店页面</router-link><a-divider type="vertical" />
-      <a-button type="link" style="padding:0px">安装</a-button><a-divider type="vertical" />
+      <a :href="$Global.APIURL + '/files/' + item.appid + '.exe'">安装</a><a-divider type="vertical" />
       <router-link :to="`/app/${item.appid}`">评价</router-link><a-divider type="vertical" />
       <router-link :to="{path:'/user/orders', query:{appid:item.appid}}">查看订单</router-link>
     </template>

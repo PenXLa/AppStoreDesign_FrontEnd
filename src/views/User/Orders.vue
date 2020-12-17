@@ -25,11 +25,11 @@
     
     <a-modal title="退款" :visible="returnData.returnBoxVisible" okText="申请"
           :confirm-loading="returnData.submittingReturn" @ok="submitApplyReturn" @cancel="returnData.returnBoxVisible=false">
-    <a-form>
-      <a-form-item label="请写出您的退款申请理由">
-        <a-textarea v-model="returnData.returnReason"/>
-      </a-form-item>
-    </a-form>
+      <a-form>
+        <a-form-item label="请写出您的退款申请理由">
+          <a-textarea v-model="returnData.returnReason"/>
+        </a-form-item>
+      </a-form>
   </a-modal>
 </div>
 </template>
